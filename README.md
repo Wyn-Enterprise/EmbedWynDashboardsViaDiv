@@ -5,6 +5,7 @@ This sample showcases the newly added APIs in Wyn Enterprise 4.1 to integrate th
 
 Here's a sample screen shot of the output on running this sample
 
+![alt text](Screenshot.PNG)
 
 **Steps to run the sample**
 1. Open the Admin portal on your Wyn Server
