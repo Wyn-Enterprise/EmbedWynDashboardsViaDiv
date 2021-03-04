@@ -67,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Screenshot.PNG" />
     <Content Include="images\dashboard.svg" />
     <Content Include="images\Image-1.png" />
     <Content Include="images\Image-10.png" />
