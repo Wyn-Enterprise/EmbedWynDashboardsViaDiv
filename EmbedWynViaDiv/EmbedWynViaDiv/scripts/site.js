@@ -61,7 +61,7 @@ function btnLogin_click() {
     }
 }
 function pageLoad() {
-    debugger;
+    //debugger;
     token = readCookie("accessToken");
     username = readCookie("username");
     wynUrl = readCookie("wynurl");

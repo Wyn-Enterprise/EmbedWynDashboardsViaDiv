@@ -87,6 +87,13 @@
     <Content Include="Login.html" />
     <Content Include="scripts\site.js" />
     <Content Include="styles\index.css" />
+    <Content Include="vendor\dashboard.app.css" />
+    <Content Include="vendor\dashboard.app.js" />
+    <Content Include="vendor\dashboard.common.js" />
+    <Content Include="vendor\dashboard.dialog.js" />
+    <Content Include="vendor\dashboard.table.js" />
+    <Content Include="vendor\dashboard.vendor.css" />
+    <Content Include="vendor\polyfills.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

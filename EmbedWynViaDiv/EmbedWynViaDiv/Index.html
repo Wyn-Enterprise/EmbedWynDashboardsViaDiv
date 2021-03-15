@@ -12,7 +12,7 @@
 
     <!--Bootstrap-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
@@ -21,6 +21,15 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@5.9.55/css/materialdesignicons.min.css" />
+
+    <link rel="stylesheet" href="vendor/dashboard.vendor.css" />
+    <link rel="stylesheet" href="vendor/dashboard.app.css" />
+
+    <script src="vendor/polyfills.js"></script>
+    <script src="vendor/dashboard.common.js"></script>
+    <script src="vendor/dashboard.table.js"></script>
+    <script src="vendor/dashboard.dialog.js"></script>
+    <script src="vendor/dashboard.app.js"></script>
 
     <script>
 
@@ -38,46 +47,46 @@
         let head = document.head;
         var wynServerUrl = readCookie("wynurl");
 
-        let wynVendorCss = document.createElement('link');
-        //link.id = cssId;
-        wynVendorCss.rel = 'stylesheet';
-        wynVendorCss.type = 'text/css';
-        wynVendorCss.href = wynServerUrl + '/api/themefiles/dashboard.vendor.css?theme=blue&version=4.1.16187.0&plugin=dashboards';
-        wynVendorCss.media = 'all';
-        head.appendChild(wynVendorCss);
+        //let wynVendorCss = document.createElement('link');
+        ////link.id = cssId;
+        //wynVendorCss.rel = 'stylesheet';
+        //wynVendorCss.type = 'text/css';
+        //wynVendorCss.href = wynServerUrl + '/api/themefiles/dashboard.vendor.css?theme=blue&version=4.1.16187.0&plugin=dashboards';
+        //wynVendorCss.media = 'all';
+        //head.appendChild(wynVendorCss);
 
-        let wynAppCss = document.createElement('link');
-        //link.id = cssId;
-        wynAppCss.rel = 'stylesheet';
-        wynAppCss.type = 'text/css';
-        wynAppCss.href = wynServerUrl + '/api/themefiles/dashboard.app.css?theme=blue&version=4.1.16187.0&plugin=dashboards';
-        wynAppCss.media = 'all';
-        head.appendChild(wynAppCss);
+        //let wynAppCss = document.createElement('link');
+        ////link.id = cssId;
+        //wynAppCss.rel = 'stylesheet';
+        //wynAppCss.type = 'text/css';
+        //wynAppCss.href = wynServerUrl + '/api/themefiles/dashboard.app.css?theme=blue&version=4.1.16187.0&plugin=dashboards';
+        //wynAppCss.media = 'all';
+        //head.appendChild(wynAppCss);
 
-        let wynPolyfills = document.createElement("script");
-        wynPolyfills.setAttribute("src", wynServerUrl + "/lib/polyfills.js");
-        wynPolyfills.setAttribute("async", "false");
-        head.appendChild(wynPolyfills);
+        //let wynPolyfills = document.createElement("script");
+        //wynPolyfills.setAttribute("src", wynServerUrl + "/lib/polyfills.js");
+        //wynPolyfills.setAttribute("async", "false");
+        //head.appendChild(wynPolyfills);
 
-        let wynCommon = document.createElement("script");
-        wynCommon.setAttribute("src", wynServerUrl + "/api/PluginAssets/dashboards-4.1.16187.0/dashboard.common.js");
-        wynCommon.setAttribute("async", "false");
-        head.appendChild(wynCommon);
+        //let wynCommon = document.createElement("script");
+        //wynCommon.setAttribute("src", wynServerUrl + "/api/PluginAssets/dashboards-4.1.16187.0/dashboard.common.js");
+        //wynCommon.setAttribute("async", "false");
+        //head.appendChild(wynCommon);
 
-        let wynTable = document.createElement("script");
-        wynTable.setAttribute("src", wynServerUrl + "/api/PluginAssets/dashboards-4.1.16187.0/dashboard.table.js");
-        wynTable.setAttribute("async", "false");
-        head.appendChild(wynTable);
+        //let wynTable = document.createElement("script");
+        //wynTable.setAttribute("src", wynServerUrl + "/api/PluginAssets/dashboards-4.1.16187.0/dashboard.table.js");
+        //wynTable.setAttribute("async", "false");
+        //head.appendChild(wynTable);
 
-        let wynDialog = document.createElement("script");
-        wynDialog.setAttribute("src", wynServerUrl + "/api/PluginAssets/dashboards-4.1.16187.0/dashboard.dialog.js");
-        wynDialog.setAttribute("async", "false");
-        head.appendChild(wynDialog, head.firstElementChild);
+        //let wynDialog = document.createElement("script");
+        //wynDialog.setAttribute("src", wynServerUrl + "/api/PluginAssets/dashboards-4.1.16187.0/dashboard.dialog.js");
+        //wynDialog.setAttribute("async", "false");
+        //head.appendChild(wynDialog, head.firstElementChild);
 
-        let wynApp = document.createElement("script");
-        wynApp.setAttribute("src", wynServerUrl + "/api/PluginAssets/dashboards-4.1.16187.0/dashboard.app.js");
-        wynApp.setAttribute("async", "false");
-        head.appendChild(wynApp);
+        //let wynApp = document.createElement("script");
+        //wynApp.setAttribute("src", wynServerUrl + "/api/PluginAssets/dashboards-4.1.16187.0/dashboard.app.js");
+        //wynApp.setAttribute("async", "false");
+        //head.appendChild(wynApp);
 
     </script>
 
