@@ -1,4 +1,4 @@
-# EmbedWynViaDiv
+# EmbedWynDashboardsViaDiv
 Sample to show integration of Wyn Designer &amp; Viewer using Div in a web application
 
 This sample showcases the newly added APIs in Wyn Enterprise to integrate the Wyn Designer and Viewer components in a web application via Div.
