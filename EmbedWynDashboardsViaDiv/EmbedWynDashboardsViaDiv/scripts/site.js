@@ -12,6 +12,9 @@ function loginPage_Load() {
     document.cookie = "accessToken= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
     document.cookie = "username= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
     document.cookie = "wynurl= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+    document.cookie = "wynversion= ;expires = Thu, 01 Jan 1970 00:00:00 GMT";
+
+    document.getElementById("version").value = "4.1.16777.0";
 }
 
 //Login
@@ -20,16 +23,14 @@ function btnLogin_click() {
     var re = /\/$/;
     wynUrl = wynUrl.replace(re, "");
     username = document.getElementById("username").value;
+    var version = document.getElementById("version").value;
+    document.cookie = "wynversion=" + version;
+
     var pswd = document.getElementById("pswd").value;
-    //var urlReg = /^((https?):\/\/)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$/;
     if (username === '' || pswd === '') {
         alert("Username and/or Password cannot be empty. Please fill all the fields...!!!!!!");
         return false;
     }
-    //else if (!(wynUrl).match(urlReg)) {
-    //    alert("Invalid Url!!!!!!");
-    //    return false;
-    //}
     else {
         $.ajax({
             type: 'POST',
