@@ -14,7 +14,7 @@ function loginPage_Load() {
     document.cookie = "wynurl= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
     document.cookie = "wynversion= ;expires = Thu, 01 Jan 1970 00:00:00 GMT";
 
-    document.getElementById("version").value = "5.0.19231.0";
+    document.getElementById("version").value = "5.1.21796.0";
 }
 
 //Login
