@@ -9,12 +9,12 @@
     selectedCat = null
 
 function loginPage_Load() {
-    document.cookie = "accessToken= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-    document.cookie = "username= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-    document.cookie = "wynurl= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-    document.cookie = "wynversion= ;expires = Thu, 01 Jan 1970 00:00:00 GMT";
+    document.cookie = "accessToken=";
+    document.cookie = "username=";
+    document.cookie = "wynurl=";
 
-    document.getElementById("version").value = "5.0.19231.0";
+    document.getElementById("version").value = "5.1.23156.0";
+    document.getElementById("wynUrl").value = "http://localhost:51980";
 }
 
 //Login
@@ -67,9 +67,15 @@ function pageLoad() {
     username = readCookie("username");
     wynUrl = readCookie("wynurl");
 
-    if (token == null) {
+    if (token == "") {
         window.location = "/Login.html";
     }
+
+    window.onunload = function () {
+        document.cookie = "accessToken=";
+        document.cookie = "username=";
+        document.cookie = "wynurl=";
+    };
 
     var backBtn = document.querySelector("#btnBack");
     backBtn.onclick = backBtn_click;
