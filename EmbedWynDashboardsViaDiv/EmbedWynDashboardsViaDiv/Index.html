@@ -22,6 +22,8 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@5.9.55/css/materialdesignicons.min.css" />
 
+    <script src="./node_modules/@grapecity/wyn-integration/build/WynIntegration.js"></script>
+
     <script>
 
         function readCookie(name) {
@@ -39,44 +41,44 @@
         var wynServerUrl = readCookie("wynurl");
         var wynVersion = readCookie("wynversion");
 
-        let wynVendorCss = document.createElement('link');
-        wynVendorCss.rel = 'stylesheet';
-        wynVendorCss.type = 'text/css';
-        wynVendorCss.href = wynServerUrl + '/api/themefiles/dashboard.vendor.css?theme=blue&version=' + wynVersion + '&plugin=dashboards';
-        wynVendorCss.media = 'all';
-        head.appendChild(wynVendorCss);
+        //let wynVendorCss = document.createElement('link');
+        //wynVendorCss.rel = 'stylesheet';
+        //wynVendorCss.type = 'text/css';
+        //wynVendorCss.href = wynServerUrl + '/api/themefiles/dashboard.vendor.css?theme=blue&version=' + wynVersion + '&plugin=dashboards';
+        //wynVendorCss.media = 'all';
+        //head.appendChild(wynVendorCss);
 
-        let wynAppCss = document.createElement('link');
-        wynAppCss.rel = 'stylesheet';
-        wynAppCss.type = 'text/css';
-        wynAppCss.href = wynServerUrl + '/api/themefiles/dashboard.app.css?theme=blue&version=' + wynVersion + '&plugin=dashboards';
-        wynAppCss.media = 'all';
-        head.appendChild(wynAppCss);
+        //let wynAppCss = document.createElement('link');
+        //wynAppCss.rel = 'stylesheet';
+        //wynAppCss.type = 'text/css';
+        //wynAppCss.href = wynServerUrl + '/api/themefiles/dashboard.app.css?theme=blue&version=' + wynVersion + '&plugin=dashboards';
+        //wynAppCss.media = 'all';
+        //head.appendChild(wynAppCss);
 
-        let wynPolyfills = document.createElement("script");
-        wynPolyfills.setAttribute("src", wynServerUrl + "/lib/polyfills.js");
-        wynPolyfills.setAttribute("async", "false");
-        head.appendChild(wynPolyfills);
+        //let wynPolyfills = document.createElement("script");
+        //wynPolyfills.setAttribute("src", wynServerUrl + "/lib/polyfills.js");
+        //wynPolyfills.setAttribute("async", "false");
+        //head.appendChild(wynPolyfills);
 
-        let wynCommon = document.createElement("script");
-        wynCommon.setAttribute("src", wynServerUrl + "/api/PluginAssets/dashboards-" + wynVersion + "/dashboard.common.js");
-        wynCommon.setAttribute("async", "false");
-        head.appendChild(wynCommon);
+        //let wynCommon = document.createElement("script");
+        //wynCommon.setAttribute("src", wynServerUrl + "/api/PluginAssets/dashboards-" + wynVersion + "/dashboard.common.js");
+        //wynCommon.setAttribute("async", "false");
+        //head.appendChild(wynCommon);
 
-        let wynTable = document.createElement("script");
-        wynTable.setAttribute("src", wynServerUrl + "/api/PluginAssets/dashboards-" + wynVersion + "/dashboard.table.js");
-        wynTable.setAttribute("async", "false");
-        head.appendChild(wynTable);
+        //let wynTable = document.createElement("script");
+        //wynTable.setAttribute("src", wynServerUrl + "/api/PluginAssets/dashboards-" + wynVersion + "/dashboard.table.js");
+        //wynTable.setAttribute("async", "false");
+        //head.appendChild(wynTable);
 
-        let wynDialog = document.createElement("script");
-        wynDialog.setAttribute("src", wynServerUrl + "/api/PluginAssets/dashboards-" + wynVersion + "/dashboard.dialog.js");
-        wynDialog.setAttribute("async", "false");
-        head.appendChild(wynDialog, head.firstElementChild);
+        //let wynDialog = document.createElement("script");
+        //wynDialog.setAttribute("src", wynServerUrl + "/api/PluginAssets/dashboards-" + wynVersion + "/dashboard.dialog.js");
+        //wynDialog.setAttribute("async", "false");
+        //head.appendChild(wynDialog, head.firstElementChild);
 
-        let wynApp = document.createElement("script");
-        wynApp.setAttribute("src", wynServerUrl + "/api/PluginAssets/dashboards-" + wynVersion + "/dashboard.app.js");
-        wynApp.setAttribute("async", "false");
-        head.appendChild(wynApp);
+        //let wynApp = document.createElement("script");
+        //wynApp.setAttribute("src", wynServerUrl + "/api/PluginAssets/dashboards-" + wynVersion + "/dashboard.app.js");
+        //wynApp.setAttribute("async", "false");
+        //head.appendChild(wynApp);
 
     </script>
 
@@ -125,12 +127,11 @@
             </div>
         </div>
         <div id="page2">
-            <div>
-                <div id="designer"></div>
-                <div id="viewer"></div>
+            <div>                
+                <div id="wynroot"></div>
             </div>
         </div>
-        <div id="codePanel" class="hide">
+        <div id="codePanel" class="hidePanel">
             <button id="btnCopyCode">
                 <i class="mdi mdi-content-copy"></i> Copy Code
             </button>

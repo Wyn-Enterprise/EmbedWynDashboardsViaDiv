@@ -4,17 +4,15 @@
     docDictionary = [],
     selectedDocument = null,
     viewer = null,
-    designer = null,
     categories = [],
-    selectedCat = null
+    selectedCat = null;
+
+var wynIntegration = null;
 
 function loginPage_Load() {
     document.cookie = "accessToken=";
     document.cookie = "username=";
     document.cookie = "wynurl=";
-
-    document.getElementById("version").value = "5.1.23156.0";
-    document.getElementById("wynUrl").value = "http://localhost:51980";
 }
 
 //Login
@@ -62,10 +60,11 @@ function btnLogin_click() {
     }
 }
 function pageLoad() {
-    //debugger;
     token = readCookie("accessToken");
     username = readCookie("username");
     wynUrl = readCookie("wynurl");
+
+    wynIntegration = WynIntegration.WynIntegration;
 
     if (token == "") {
         window.location = "/Login.html";
@@ -118,88 +117,46 @@ function loadCode(mode) {
 
         case "Viewer":
             codeStr = `
- const viewer = WynDashboards.create('DashboardViewer', {
-    dashboardId: '`+ selectedDocument.id + `',
-    edition: 'EN',
-    size: "fitToScreen",
-    actions: "clearselection,annotation,analysispath",
-    openfulldashboardmode: "newwindow",
-    containerFilterScope: '',
-    version: '1.0.0',
-    userId: '`+ username + `',
-    lng: 'en',
-    baseUrl: '`+ wynUrl + `',
-    token: token,
- });
-
- viewer.initialize({
-    container: document.querySelector('#viewer'),
-    onClose: () => {
-       //console.log('close');
-    },
-    onLoaded: (docName) => {
-       //console.log('loaded');
-    },
- });`.trim();
+wynIntegration.createDashboardViewer({
+                baseUrl: '`+ wynUrl + `',
+                dashboardId: '`+ selectedDocument.id + `',
+                token: token,
+                // for v5.0, v5.1 ignore
+                //version: '5.0.21782.0',
+            }, '#wynroot').then(ins => {
+                viewer = ins;
+            });`.trim();
             break;
 
         case "Designer":
             codeStr = `
- const designer = WynDashboards.create('DashboardDesigner', {
-    edition: 'EN',
-    dashboardId: '`+ selectedDocument.id + `',
-    enableDeveloperMode: true,
-    containerFilterScope: '',
-    version: '1.0.0',
-    userId: '`+ username + `',
-    lng: 'en',
-    baseUrl: '`+ wynUrl + `',
-    token: token
- });
-
- designer.initialize({
-    container: document.querySelector('#designer'),
-    onClose: () => {
-        //console.log('close');
-    },
-    onSave: (docName) => {
-       //console.log('save');
-    },
-    onLoaded: (docName) => {
-        //console.log('loaded');
-    },
- });`.trim();
+wynIntegration.createDashboardDesigner({
+        baseUrl: '`+ wynUrl + `',
+        dashboardId: '`+ selectedDocument.id + `',
+        lng: 'en',
+        token: <token>,
+        // for v5.1 ignore, for v5.0:
+        //version: '5.0.21782.0',
+    }, '#wynroot').then(ins => {
+        viewer = ins;
+    });`.trim();
             break;
 
         case "NewDesigner":
             codeStr = `
- const designer = WynDashboards.create('DashboardDesigner', {
-    edition: 'EN',    
-    enableDeveloperMode: true,
-    containerFilterScope: '',
-    version: '1.0.0',
-    userId: '`+ username + `',
-    lng: 'en',
-    baseUrl: '`+ wynUrl + `',
-    token: token
- });
-
- designer.initialize({
-    container: document.querySelector('#designer'),
-    onClose: () => {
-        //console.log('close');
-    },
-    onSave: (docName) => {
-       //console.log('save');
-    },
-    onLoaded: (docName) => {
-        //console.log('loaded');
-    },
- });`.trim();
+ wynIntegration.createDashboardDesigner({
+        baseUrl: '`+ wynUrl + `',
+        dashboardId: '',
+        lng: 'en',
+        token: <token>,
+        // for v5.1 ignore, for v5.0:
+        //version: '5.0.21782.0',
+    }, '#wynroot').then(ins => {
+        viewer = ins;
+    });`.trim();
             break;
     }
     document.querySelector("#codeElement").textContent = codeStr;
-
     hljs.initHighlightingOnLoad();
 }
 
@@ -259,20 +216,16 @@ function loadDashboardList() {
 function backBtn_click() {
     document.querySelector("#page2").style.display = "none";
     document.querySelector("#page1").style.display = "block";
-    document.querySelector("#designer").style.display = "none";
-    document.querySelector("#viewer").style.display = "none";
+    document.querySelector("#wynroot").style.display = "none";
     document.querySelector("#btnBack").style.display = "none";
     document.querySelector("#wynHeader").style.display = "block";
     document.querySelector("#btnSwitch").style.display = "none";
     document.querySelector("#dashboardTitle").style.display = "none";
     document.querySelector("#dashboardTitle").innerHTML = "";
-    document.querySelector("#codePanel").className = "hide";
+    document.querySelector("#codePanel").className = "hidePanel";
 
     if (viewer)
         viewer.destroy();
-
-    if (designer)
-        designer.destroy();
 
     loadCode("Gallery");
 }
@@ -296,7 +249,7 @@ function categorylist_click(e) {
 
 function showCodePanel_click() {
     var codePanel = document.getElementById("codePanel");
-    codePanel.className = codePanel.className == "show" ? "hide" : "show";
+    codePanel.className = codePanel.className == "showPanel" ? "hidePanel" : "showPanel";
 }
 
 function btnCopyCode_click() {
@@ -312,7 +265,6 @@ function btnCopyCode_click() {
     document.execCommand('copy');
     document.body.removeChild(el);
 
-    //document.execCommand("copy");
 }
 
 function showDashboards(category) {
@@ -387,7 +339,6 @@ function cmdButtonClick(e) {
 
     switch (e.name) {
         case "ViewDoc":
-            //if (selectedDocument) {
             cmdType = "view";
 
             var docName = e.parentElement.parentElement.getElementsByTagName("span")[0].innerText;
@@ -397,42 +348,27 @@ function cmdButtonClick(e) {
 
             document.querySelector("#page2").style.display = "block";
             document.querySelector("#page1").style.display = "none";
-            document.querySelector("#designer").style.display = "none";
-            document.querySelector("#viewer").style.display = "block";
+            document.querySelector("#wynroot").style.display = "block";
             document.querySelector("#btnBack").style.display = "block";
             document.querySelector("#wynHeader").style.display = "none";
             document.querySelector("#btnSwitch").style.display = "block";
             document.querySelector("#dashboardTitle").style.display = "block";
             document.querySelector("#dashboardTitle").innerHTML = docName;
-            document.querySelector("#codePanel").className = "hide";
+            document.querySelector("#codePanel").className = "hidePanel";
 
             loadCode("Viewer");
 
             if (viewer)
                 viewer.destroy();
 
-            viewer = WynDashboards.create('DashboardViewer', {
-                //scenario: "column-3",
-                dashboardId: docId,
-                edition: 'EN',
-                size: "fitToScreen",
-                actions: "clearselection,annotation,analysispath",
-                openfulldashboardmode: "newwindow",
-                containerFilterScope: '',
-                version: '1.0.0',
-                userId: username,
-                lng: 'en',
+            wynIntegration.createDashboardViewer({
                 baseUrl: wynUrl,
+                dashboardId: docId,
                 token: token,
-            });
-            viewer.initialize({
-                container: document.querySelector('#viewer'),
-                onClose: () => {
-                    //console.log('close');
-                },
-                onLoaded: (docName) => {
-                    //console.log('loaded');
-                },
+                // for v5.0, v5.1 ignore
+                //version: '5.0.21782.0',
+            }, '#wynroot').then(ins => {
+                viewer = ins;
             });
             break;
         case "EditDoc":
@@ -451,43 +387,21 @@ function cmdButtonClick(e) {
 
             document.querySelector("#page2").style.display = "block";
             document.querySelector("#page1").style.display = "none";
-            document.querySelector("#designer").style.display = "block";
-            document.querySelector("#viewer").style.display = "none";
+            document.querySelector("#wynroot").style.display = "block";
             document.querySelector("#btnBack").style.display = "block";
             document.querySelector("#wynHeader").style.display = "none";
             document.querySelector("#btnSwitch").style.display = "none";
             document.querySelector("#dashboardTitle").style.display = "block";
             document.querySelector("#dashboardTitle").innerHTML = "New Dashboard";
-            document.querySelector("#codePanel").className = "hide";
+            document.querySelector("#codePanel").className = "hidePanel";
 
             loadCode("NewDesigner");
 
-            if (designer)
-                designer.destroy();
+            if (viewer)
+                viewer.destroy();
 
-            designer = WynDashboards.create('DashboardDesigner', {
-                edition: 'EN',
-                enableDeveloperMode: true,
-                containerFilterScope: '',
-                version: '1.0.0',
-                userId: username,
-                lng: 'en',
-                baseUrl: wynUrl,
-                token: token
-            });
-            designer.initialize({
-                container: document.querySelector('#designer'),
-                onClose: () => {
-                    //console.log('close');
-                },
-                onSave: (docName) => {
-                    //console.log('save');
-                    //refreshList();
-                },
-                onLoaded: (docName) => {
-                    //console.log('loaded');
-                },
-            });
+            docId = '';
+            initializeDesigner(docId);
             break;
         case "RefreshList":
             cmdType = "refresh";
@@ -495,7 +409,7 @@ function cmdButtonClick(e) {
             break;
         case "SwitchView":
             docId = selectedDocument.id;
-            document.querySelector("#codePanel").className = "hide";
+            document.querySelector("#codePanel").className = "hidePanel";
             loadCode("Designer");
             initializeDesigner(docId);
             break;
@@ -505,39 +419,25 @@ function cmdButtonClick(e) {
 function initializeDesigner(docId) {
     document.querySelector("#page2").style.display = "block";
     document.querySelector("#page1").style.display = "none";
-    document.querySelector("#designer").style.display = "block";
-    document.querySelector("#viewer").style.display = "none";
+    document.querySelector("#wynroot").style.display = "block";
     document.querySelector("#btnBack").style.display = "block";
     document.querySelector("#wynHeader").style.display = "none";
     document.querySelector("#btnSwitch").style.display = "none";
     document.querySelector("#dashboardTitle").style.display = "block";
-    document.querySelector("#codePanel").className = "hide";
+    document.querySelector("#codePanel").className = "hidePanel";
 
-    if (designer)
-        designer.destroy();
+    if (viewer)
+        viewer.destroy();
 
-    designer = WynDashboards.create('DashboardDesigner', {
-        edition: 'EN',
-        dashboardId: docId,
-        enableDeveloperMode: true,
-        containerFilterScope: '',
-        version: '1.0.0',
-        userId: username,
-        lng: 'en',
+    wynIntegration.createDashboardDesigner({
         baseUrl: wynUrl,
-        token: token
-    });
-    designer.initialize({
-        container: document.querySelector('#designer'),
-        onClose: () => {
-            //console.log('close');
-        },
-        onSave: (docName) => {
-            //console.log('save');
-        },
-        onLoaded: (docName) => {
-            //console.log('loaded');
-        },
+        dashboardId: docId,
+        lng: 'en',
+        token: token,
+        // for v5.0, v5.1 ignore
+        //version: '5.0.21782.0',
+    }, '#wynroot').then(ins => {
+        viewer = ins;
     });
 }
 
@@ -546,6 +446,9 @@ function btnLogout_click() {
     document.cookie = "accessToken=\"\"";
     document.cookie = "username=\"\"";
     document.cookie = "wynurl=\"\"";
+
+    if (viewer)
+        viewer.destroy();
 
     window.location = "./Login.html";
 }
