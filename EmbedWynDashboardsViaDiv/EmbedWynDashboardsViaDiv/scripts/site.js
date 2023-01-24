@@ -21,8 +21,8 @@ function btnLogin_click() {
     var re = /\/$/;
     wynUrl = wynUrl.replace(re, "");
     username = document.getElementById("username").value;
-    var version = document.getElementById("version").value;
-    document.cookie = "wynversion=" + version;
+    //var version = document.getElementById("version").value;
+    //document.cookie = "wynversion=" + version;
 
     var pswd = document.getElementById("pswd").value;
     if (username === '' || pswd === '') {
@@ -365,6 +365,7 @@ function cmdButtonClick(e) {
                 baseUrl: wynUrl,
                 dashboardId: docId,
                 token: token,
+                //scenario: 'column-1'
                 // for v5.0, v5.1 ignore
                 //version: '5.0.21782.0',
             }, '#wynroot').then(ins => {
