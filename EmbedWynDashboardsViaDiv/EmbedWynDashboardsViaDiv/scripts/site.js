@@ -21,9 +21,7 @@ function btnLogin_click() {
     var re = /\/$/;
     wynUrl = wynUrl.replace(re, "");
     username = document.getElementById("username").value;
-    var version = document.getElementById("version").value;
-    document.cookie = "wynversion=" + version;
-
+   
     var pswd = document.getElementById("pswd").value;
     if (username === '' || pswd === '') {
         alert("Username and/or Password cannot be empty. Please fill all the fields...!!!!!!");
